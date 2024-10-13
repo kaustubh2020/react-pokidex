@@ -5,7 +5,9 @@ import PokemonCard from "./components/PokemonCard";
 
 const App = () => {
   const [allPokemons, setAllPokemons] = useState([]);
-  const [loadMore, setLoadMore] = useState(`${constant.API_URL}?limit=20`);
+  const [loadMore, setLoadMore] = useState(
+    `${constant.API_URL}?limit=${constant.LIMIT}`
+  );
   const [error, setError] = useState(null);
 
   const getAllPokemons = async () => {
