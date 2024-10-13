@@ -1,9 +1,9 @@
-const PokemonThumb = ({ id, image, name, type }) => {
+const PokemonCard = ({ id, image, name, type }) => {
   const style = type + " thumb-container";
   return (
     <div className={style}>
       <div className="number">
-        <small>#0{id}</small>
+        <small>#{id}</small>
       </div>
       <img src={image} alt={name} />
       <div className="detail-wrapper">
@@ -14,4 +14,4 @@ const PokemonThumb = ({ id, image, name, type }) => {
   );
 };
 
-export default PokemonThumb;
+export default PokemonCard;

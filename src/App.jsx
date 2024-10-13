@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { API_URL } from "./constants/API_URL";
-import PokemonThumb from "./components/PokemonThumb";
+import { constant } from "./constants/constants";
+import PokemonCard from "./components/PokemonCard";
 
 const App = () => {
   const [allPokemons, setAllPokemons] = useState([]);
-  const [loadMore, setLoadMore] = useState(`${API_URL}?limit=20`);
+  const [loadMore, setLoadMore] = useState(`${constant.API_URL}?limit=20`);
 
   const getAllPokemons = async () => {
     const res = await fetch(loadMore);
@@ -14,7 +14,7 @@ const App = () => {
 
     function createPokemonObject(results) {
       results.forEach(async (pokemon) => {
-        const res = await fetch(`${API_URL}/${pokemon.name}`);
+        const res = await fetch(`${constant.API_URL}/${pokemon.name}`);
         const data = await res.json();
 
         // Check if the Pokémon is already in the array before adding
@@ -37,11 +37,11 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <h1>Pokemon Evolution</h1>
+      <h1>{constant.PAGE_TITLE}</h1>
       <div className="pokemon-container">
         <div className="all-container">
           {allPokemons.map((pokemonStats, index) => (
-            <PokemonThumb
+            <PokemonCard
               key={index}
               id={pokemonStats.id}
               image={pokemonStats.sprites.other.dream_world.front_default}
@@ -51,7 +51,7 @@ const App = () => {
           ))}
         </div>
         <button className="load-more" onClick={() => getAllPokemons()}>
-          Load more
+          {constant.BUTTON_LABEL}
         </button>
       </div>
     </div>
