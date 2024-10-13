@@ -6,7 +6,7 @@ const PokemonCard = ({ id, image, gif, name, type }) => {
   return (
     <div className={style}>
       <div className="number">
-        <small>#{id}</small>
+        <small>#{String(id).padStart(2, "0")}</small>
         <div>
           <img src={gif} alt={name} width={20} height={20} loading="lazy" />
         </div>
