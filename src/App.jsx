@@ -66,7 +66,7 @@ const App = () => {
               image={sprites.other["official-artwork"].front_default}
               gif={sprites.other.showdown.front_default}
               name={name}
-              type={types[0].type.name}
+              type={types.map((typeInfo) => typeInfo.type.name).join("/")}
             />
           ))}
         </div>
