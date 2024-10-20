@@ -1,7 +1,7 @@
 export const constant = {
   API_URL: "https://pokeapi.co/api/v2/pokemon",
   LIMIT: "24",
-  PAGE_TITLE: "Pokedexi",
+  PAGE_TITLE: "Pokedexter",
   BUTTON_LABEL: "Load more...",
 };
 
