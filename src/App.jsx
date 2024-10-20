@@ -3,6 +3,7 @@ import "./App.css";
 import { constant } from "./constants/constants";
 import PokemonCard from "./components/PokemonCard";
 import Loader from "./components/Loader";
+import ScrollToTopButton from "./components/ScrollToTopBtn";
 
 const App = () => {
   const [allPokemons, setAllPokemons] = useState([]);
@@ -80,8 +81,6 @@ const App = () => {
                     );
                   })
                   .join(", ")}
-
-                /* type={types.map((typeInfo) => typeInfo.type.name).join("/")} */
               />
             ))}
           </div>
@@ -98,6 +97,7 @@ const App = () => {
           )}
         </div>
       </div>
+      {!loading && !error && <ScrollToTopButton />}
     </>
   );
 };
