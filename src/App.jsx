@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { constant } from "./constants/constants";
 import PokemonCard from "./components/PokemonCard";
+import Loader from "./components/Loader";
 
 const App = () => {
   const [allPokemons, setAllPokemons] = useState([]);
   const [loadMore, setLoadMore] = useState(
     `${constant.API_URL}?limit=${constant.LIMIT}`
   );
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const getAllPokemons = async () => {
@@ -22,6 +24,7 @@ const App = () => {
         "Failed to fetch Pokémon data. Please try again later. " + error
       );
     }
+    setLoading(false);
   };
 
   const createPokemonObjects = async (results) => {
@@ -46,6 +49,7 @@ const App = () => {
         "Error fetching Pokémon details. Please try again later. " + error
       );
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -54,29 +58,47 @@ const App = () => {
   }, []);
 
   return (
-    <div className="app-container">
-      <h1>{constant.PAGE_TITLE}</h1>
-      {error && <div className="error-message">{error}</div>}
-      <div className="pokemon-container">
-        <div className="all-container">
-          {allPokemons.map(({ id, sprites, name, types }) => (
-            <PokemonCard
-              key={id}
-              id={id}
-              image={sprites.other["official-artwork"].front_default}
-              gif={sprites.other.showdown.front_default}
-              name={name}
-              type={types.map((typeInfo) => typeInfo.type.name).join("/")}
-            />
-          ))}
+    <>
+      <div>
+        <h1>{constant.PAGE_TITLE}</h1>
+        {loading && <Loader />}
+        {error && <div>{error}</div>}
+        <div>
+          <div className="p-4 grid grid-cols-1 gap-5 lg:grid-cols-5 lg:gap-8 md:grid-cols-3 md:gap-6">
+            {allPokemons.map(({ id, sprites, name, types, abilities }) => (
+              <PokemonCard
+                key={id}
+                id={id}
+                image={sprites.other.home.front_default}
+                name={name}
+                type={types[0].type.name}
+                ability={abilities
+                  .map((abilityInfo) => {
+                    const abilityName = abilityInfo.ability.name;
+                    return (
+                      abilityName.charAt(0).toUpperCase() + abilityName.slice(1)
+                    );
+                  })
+                  .join(", ")}
+
+                /* type={types.map((typeInfo) => typeInfo.type.name).join("/")} */
+              />
+            ))}
+          </div>
+          {!error && (
+            <button
+              className="m-4 group relative inline-block focus:outline-none focus:ring"
+              onClick={getAllPokemons}
+            >
+              <span className="absolute inset-0 translate-x-1.5 translate-y-1.5 bg-yellow-300 transition-transform group-hover:translate-x-0 group-hover:translate-y-0"></span>
+              <span className="relative inline-block border-2 border-current px-8 py-3 text-sm font-bold uppercase tracking-widest text-black group-active:text-opacity-75">
+                {constant.BUTTON_LABEL}
+              </span>
+            </button>
+          )}
         </div>
-        {!error && (
-          <button className="load-more" onClick={getAllPokemons}>
-            {constant.BUTTON_LABEL}
-          </button>
-        )}
       </div>
-    </div>
+    </>
   );
 };
 
